@@ -15,9 +15,9 @@ namespace LifeGames.Infrastructure.Migrations
                 name: "Board",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", maxLength: 200, nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -28,11 +28,11 @@ namespace LifeGames.Infrastructure.Migrations
                 name: "BoardGeneration",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    BoardId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    GenerationNumber = table.Column<int>(type: "int", nullable: false),
-                    Cells = table.Column<string>(type: "json", nullable: false),
-                    ComputedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    BoardId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    GenerationNumber = table.Column<int>(type: "INTEGER", nullable: false),
+                    Cells = table.Column<string>(type: "TEXT", nullable: false),
+                    ComputedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {

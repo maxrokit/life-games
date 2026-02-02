@@ -11,7 +11,7 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, string connectionString)
     {
         services.AddDbContext<LifeGamesDbContext>(options =>
-            options.UseSqlServer(connectionString));
+            options.UseSqlite(connectionString));
 
         services.AddScoped<IBoardRepository, BoardRepository>();
 

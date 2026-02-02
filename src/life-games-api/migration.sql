@@ -13,7 +13,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20260202071340_InitialCreate'
+    WHERE [MigrationId] = N'20260202083416_InitialCreate'
 )
 BEGIN
     CREATE TABLE [Board] (
@@ -27,14 +27,14 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20260202071340_InitialCreate'
+    WHERE [MigrationId] = N'20260202083416_InitialCreate'
 )
 BEGIN
     CREATE TABLE [BoardGeneration] (
         [Id] uniqueidentifier NOT NULL,
         [BoardId] uniqueidentifier NOT NULL,
         [GenerationNumber] int NOT NULL,
-        [Cells] json NOT NULL,
+        [Cells] nvarchar(max) NOT NULL,
         [ComputedAt] datetime2 NOT NULL,
         CONSTRAINT [PK_BoardGeneration] PRIMARY KEY ([Id]),
         CONSTRAINT [FK_BoardGeneration_Board_BoardId] FOREIGN KEY ([BoardId]) REFERENCES [Board] ([Id]) ON DELETE CASCADE
@@ -44,7 +44,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20260202071340_InitialCreate'
+    WHERE [MigrationId] = N'20260202083416_InitialCreate'
 )
 BEGIN
     CREATE INDEX [IX_Board_CreatedAt] ON [Board] ([CreatedAt]);
@@ -53,7 +53,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20260202071340_InitialCreate'
+    WHERE [MigrationId] = N'20260202083416_InitialCreate'
 )
 BEGIN
     CREATE INDEX [IX_BoardGeneration_BoardId] ON [BoardGeneration] ([BoardId]);
@@ -62,7 +62,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20260202071340_InitialCreate'
+    WHERE [MigrationId] = N'20260202083416_InitialCreate'
 )
 BEGIN
     CREATE UNIQUE INDEX [IX_BoardGeneration_BoardId_GenerationNumber] ON [BoardGeneration] ([BoardId], [GenerationNumber]);
@@ -71,11 +71,11 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20260202071340_InitialCreate'
+    WHERE [MigrationId] = N'20260202083416_InitialCreate'
 )
 BEGIN
     INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-    VALUES (N'20260202071340_InitialCreate', N'8.0.11');
+    VALUES (N'20260202083416_InitialCreate', N'8.0.11');
 END;
 GO
 

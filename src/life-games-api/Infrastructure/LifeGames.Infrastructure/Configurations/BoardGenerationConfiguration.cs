@@ -29,7 +29,7 @@ public class BoardGenerationConfiguration : IEntityTypeConfiguration<BoardGenera
             .HasConversion(
                 cells => JsonSerializer.Serialize(cells.Select(c => new { c.X, c.Y }), (JsonSerializerOptions?)null),
                 json => DeserializeCells(json))
-            .HasColumnType("json");
+            .HasColumnType("TEXT");
 
         builder.HasIndex(bg => new { bg.BoardId, bg.GenerationNumber })
             .IsUnique();
