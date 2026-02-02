@@ -1,0 +1,17 @@
+**/.dockerignore
+**/.git
+**/.gitignore
+**/.vs
+**/.vscode
+**/bin
+**/obj
+**/*.user
+**/*.dbmdl
+**/*.jfm
+**/node_modules
+**/npm-debug.log
+**/Dockerfile*
+**/docker-compose*
+**/*.md
+**/lifegames.db
+**/*.Tests

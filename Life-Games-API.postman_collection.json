@@ -1,0 +1,799 @@
+{
+	"info": {
+		"_postman_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+		"name": "Life Games API",
+		"description": "Conway's Game of Life RESTful API - Complete test collection\n\nFeatures:\n- All API endpoints with example requests\n- Common Game of Life patterns (Glider, Blinker, etc.)\n- Automatic board ID extraction and storage\n- Health check endpoints\n- Content negotiation (JSON/XML)\n- API versioning headers",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Boards",
+			"item": [
+				{
+					"name": "Create Board - Glider",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Response has board ID\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.id).to.be.a('string');",
+									"    pm.collectionVariables.set(\"boardId\", jsonData.id);",
+									"});",
+									"",
+									"pm.test(\"Response contains HATEOAS links\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.links).to.be.an('object');",
+									"    pm.expect(jsonData.links.self).to.exist;",
+									"    pm.expect(jsonData.links.next).to.exist;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/vnd.lifegames.v1+json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Glider Pattern\",\n  \"cells\": [\n    { \"x\": 1, \"y\": 0 },\n    { \"x\": 2, \"y\": 1 },\n    { \"x\": 0, \"y\": 2 },\n    { \"x\": 1, \"y\": 2 },\n    { \"x\": 2, \"y\": 2 }\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/boards",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"boards"
+							]
+						},
+						"description": "Creates a new board with a Glider pattern - a classic oscillator that moves diagonally across the grid."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Board - Blinker",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"var jsonData = pm.response.json();",
+									"pm.collectionVariables.set(\"boardId\", jsonData.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/vnd.lifegames.v1+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Blinker Pattern\",\n  \"cells\": [\n    { \"x\": 1, \"y\": 0 },\n    { \"x\": 1, \"y\": 1 },\n    { \"x\": 1, \"y\": 2 }\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/boards",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"boards"
+							]
+						},
+						"description": "Creates a Blinker pattern - a period-2 oscillator that alternates between horizontal and vertical."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Board - Block (Still Life)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"var jsonData = pm.response.json();",
+									"pm.collectionVariables.set(\"boardId\", jsonData.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/vnd.lifegames.v1+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Block (Still Life)\",\n  \"cells\": [\n    { \"x\": 0, \"y\": 0 },\n    { \"x\": 1, \"y\": 0 },\n    { \"x\": 0, \"y\": 1 },\n    { \"x\": 1, \"y\": 1 }\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/boards",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"boards"
+							]
+						},
+						"description": "Creates a Block pattern - a still life that never changes."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Board - Pulsar",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"var jsonData = pm.response.json();",
+									"pm.collectionVariables.set(\"boardId\", jsonData.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/vnd.lifegames.v1+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Pulsar Pattern\",\n  \"cells\": [\n    {\"x\": 2, \"y\": 0}, {\"x\": 3, \"y\": 0}, {\"x\": 4, \"y\": 0},\n    {\"x\": 8, \"y\": 0}, {\"x\": 9, \"y\": 0}, {\"x\": 10, \"y\": 0},\n    {\"x\": 0, \"y\": 2}, {\"x\": 5, \"y\": 2}, {\"x\": 7, \"y\": 2}, {\"x\": 12, \"y\": 2},\n    {\"x\": 0, \"y\": 3}, {\"x\": 5, \"y\": 3}, {\"x\": 7, \"y\": 3}, {\"x\": 12, \"y\": 3},\n    {\"x\": 0, \"y\": 4}, {\"x\": 5, \"y\": 4}, {\"x\": 7, \"y\": 4}, {\"x\": 12, \"y\": 4},\n    {\"x\": 2, \"y\": 5}, {\"x\": 3, \"y\": 5}, {\"x\": 4, \"y\": 5},\n    {\"x\": 8, \"y\": 5}, {\"x\": 9, \"y\": 5}, {\"x\": 10, \"y\": 5},\n    {\"x\": 2, \"y\": 7}, {\"x\": 3, \"y\": 7}, {\"x\": 4, \"y\": 7},\n    {\"x\": 8, \"y\": 7}, {\"x\": 9, \"y\": 7}, {\"x\": 10, \"y\": 7},\n    {\"x\": 0, \"y\": 8}, {\"x\": 5, \"y\": 8}, {\"x\": 7, \"y\": 8}, {\"x\": 12, \"y\": 8},\n    {\"x\": 0, \"y\": 9}, {\"x\": 5, \"y\": 9}, {\"x\": 7, \"y\": 9}, {\"x\": 12, \"y\": 9},\n    {\"x\": 0, \"y\": 10}, {\"x\": 5, \"y\": 10}, {\"x\": 7, \"y\": 10}, {\"x\": 12, \"y\": 10},\n    {\"x\": 2, \"y\": 12}, {\"x\": 3, \"y\": 12}, {\"x\": 4, \"y\": 12},\n    {\"x\": 8, \"y\": 12}, {\"x\": 9, \"y\": 12}, {\"x\": 10, \"y\": 12}\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/boards",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"boards"
+							]
+						},
+						"description": "Creates a Pulsar pattern - a period-3 oscillator."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Board State (Generation 0)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Generation is 0\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.generationNumber).to.eql(0);",
+									"});",
+									"",
+									"pm.test(\"Contains cells array\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.cells).to.be.an('array');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/vnd.lifegames.v1+json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/boards/{{boardId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"boards",
+								"{{boardId}}"
+							]
+						},
+						"description": "Retrieves the initial state (generation 0) of the board. Useful for reset functionality."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Next Generation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Generation incremented\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.generationNumber).to.be.above(0);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/vnd.lifegames.v1+json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/boards/{{boardId}}/next",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"boards",
+								"{{boardId}}",
+								"next"
+							]
+						},
+						"description": "Gets the next generation (current + 1) of the board."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Specific Generation (N=5)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Correct generation number\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.generationNumber).to.eql(5);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/vnd.lifegames.v1+json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/boards/{{boardId}}/generations/5",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"boards",
+								"{{boardId}}",
+								"generations",
+								"5"
+							]
+						},
+						"description": "Gets a specific generation number of the board. Change the number in the URL to get different generations."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Specific Generation (N=100)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Correct generation number\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.generationNumber).to.eql(100);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/vnd.lifegames.v1+json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/boards/{{boardId}}/generations/100",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"boards",
+								"{{boardId}}",
+								"generations",
+								"100"
+							]
+						},
+						"description": "Gets generation 100 to see long-term evolution."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Final State",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response contains final state info\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('isCyclic');",
+									"    pm.expect(jsonData).to.have.property('finalGenerationNumber');",
+									"});",
+									"",
+									"pm.test(\"Cycle detection fields present\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.isCyclic) {",
+									"        pm.expect(jsonData.cycleLength).to.exist;",
+									"        pm.expect(jsonData.cycleStartGeneration).to.exist;",
+									"    }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/vnd.lifegames.v1+json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/boards/{{boardId}}/final",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"boards",
+								"{{boardId}}",
+								"final"
+							]
+						},
+						"description": "Gets the final stable state of the board. Detects cycles (oscillators) and still lifes. Returns cycle information if detected."
+					},
+					"response": []
+				}
+			],
+			"description": "Board management endpoints - create boards and query their states across generations."
+		},
+		{
+			"name": "Content Negotiation",
+			"item": [
+				{
+					"name": "Get Board State (XML)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is XML\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\");",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"xml\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/vnd.lifegames.v1+xml",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/boards/{{boardId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"boards",
+								"{{boardId}}"
+							]
+						},
+						"description": "Demonstrates XML content negotiation. The API supports both JSON and XML based on the Accept header."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Next Generation (JSON - Default)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is JSON\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\");",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"json\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/boards/{{boardId}}/next",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"boards",
+								"{{boardId}}",
+								"next"
+							]
+						},
+						"description": "Standard JSON response (default format)."
+					},
+					"response": []
+				}
+			],
+			"description": "Demonstrates content negotiation - the API supports both JSON and XML formats based on the Accept header."
+		},
+		{
+			"name": "Error Handling",
+			"item": [
+				{
+					"name": "Get Non-Existent Board",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/vnd.lifegames.v1+json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/boards/00000000-0000-0000-0000-000000000000",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"boards",
+								"00000000-0000-0000-0000-000000000000"
+							]
+						},
+						"description": "Tests 404 error handling with a non-existent board ID."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Board - Invalid Request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Response is Problem Details\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('title');",
+									"    pm.expect(jsonData).to.have.property('status');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/vnd.lifegames.v1+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"\",\n  \"cells\": []\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/boards",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"boards"
+							]
+						},
+						"description": "Tests validation with empty cells array. Should return 400 with Problem Details (RFC 7807)."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Invalid Generation Number",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/vnd.lifegames.v1+json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/boards/{{boardId}}/generations/-1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"boards",
+								"{{boardId}}",
+								"generations",
+								"-1"
+							]
+						},
+						"description": "Tests validation with negative generation number."
+					},
+					"response": []
+				}
+			],
+			"description": "Error handling examples - 404s, validation errors (400), and RFC 7807 Problem Details responses."
+		},
+		{
+			"name": "Health Checks",
+			"item": [
+				{
+					"name": "Health Check",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response is Healthy\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Healthy\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/health",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"health"
+							]
+						},
+						"description": "Basic health check endpoint for container orchestration."
+					},
+					"response": []
+				},
+				{
+					"name": "Readiness Check",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Database is healthy\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.status).to.eql(\"Healthy\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/health/ready",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"health",
+								"ready"
+							]
+						},
+						"description": "Readiness check that includes database connectivity verification."
+					},
+					"response": []
+				}
+			],
+			"description": "Health check endpoints for monitoring and container orchestration."
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:5253",
+			"type": "string"
+		},
+		{
+			"key": "boardId",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

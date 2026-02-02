@@ -1,0 +1,46 @@
+# .NET
+bin/
+obj/
+*.user
+*.suo
+*.cache
+.vs/
+.vscode/
+*.log
+*.db
+*.db-shm
+*.db-wal
+
+# Node.js
+node_modules/
+dist/
+*.local
+.env
+
+# IDE
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build outputs
+*.dll
+*.exe
+*.pdb
+
+# Test results
+TestResults/
+*.trx
+
+# Package files
+*.nupkg
+*.snupkg
+
+# Temporary files
+tmp/
+temp/
+*.tmp

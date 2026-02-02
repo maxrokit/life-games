@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  life-games-api:
+    build:
+      context: .
+      dockerfile: Api/LifeGames.Api/Dockerfile
+    ports:
+      - "5000:8080"
+      - "5001:8081"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=Data Source=/app/data/lifegames.db
+    volumes:
+      - life-games-data:/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  life-games-data:
