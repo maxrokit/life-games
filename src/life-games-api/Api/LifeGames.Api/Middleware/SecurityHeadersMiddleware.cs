@@ -5,7 +5,7 @@ public class SecurityHeadersMiddleware(RequestDelegate next, IWebHostEnvironment
     public async Task InvokeAsync(HttpContext context)
     {
         // HSTS - Force HTTPS for 1 year, include subdomains, allow preloading
-        context.Response.Headers.Append("Strict-Transport-Security", 
+        context.Response.Headers.Append("Strict-Transport-Security",
             "max-age=31536000; includeSubDomains; preload");
 
         // Prevent MIME-sniffing attacks
@@ -24,18 +24,18 @@ public class SecurityHeadersMiddleware(RequestDelegate next, IWebHostEnvironment
         if (environment.IsDevelopment() && context.Request.Path.StartsWithSegments("/swagger"))
         {
             // Relaxed CSP for Swagger UI
-            context.Response.Headers.Append("Content-Security-Policy", 
+            context.Response.Headers.Append("Content-Security-Policy",
                 "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self';");
         }
         else
         {
             // Restrictive CSP for API endpoints
-            context.Response.Headers.Append("Content-Security-Policy", 
+            context.Response.Headers.Append("Content-Security-Policy",
                 "default-src 'self'; script-src 'none'; style-src 'none'; img-src 'self' data:; font-src 'none'; connect-src 'self'; frame-ancestors 'none';");
         }
 
         // Permissions Policy - Restrict browser features
-        context.Response.Headers.Append("Permissions-Policy", 
+        context.Response.Headers.Append("Permissions-Policy",
             "geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=(), speaker=()");
 
         await next(context);

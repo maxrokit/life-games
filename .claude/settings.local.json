@@ -42,7 +42,9 @@
       "Bash(git push)",
       "Bash(powershell -Command \"Get-Service | Where-Object {$_Name -like ''*SQL*''} | Select-Object Name, Status, DisplayName\")",
       "Bash(dotnet --list-sdks:*)",
-      "Bash(dotnet --version:*)"
+      "Bash(dotnet --version:*)",
+      "Bash(dotnet format:*)",
+      "Bash(npm run lint:*)"
     ]
   }
 }
