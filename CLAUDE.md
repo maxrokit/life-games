@@ -32,7 +32,7 @@ life-games-api/
 │   ├── DTOs/                       # Response DTOs
 │   ├── Services/                   # Application services (cycle detection)
 │   └── Validators/                 # FluentValidation validators
-├── Infrastructure/LifeGames.Infrastructure/  # EF Core, SQL Server, repositories
+├── Infrastructure/LifeGames.Infrastructure/  # EF Core, SQLite, repositories
 └── Api/LifeGames.Api/              # Controllers, DTOs, middleware
 
 life-games-app/                     # React + TypeScript + Vite + Tailwind
@@ -46,7 +46,7 @@ Each backend layer has corresponding `.Tests` project.
 ## Key Technical Decisions
 
 - **.NET 8.0** with C# 12, classic `.sln` format (not `.slnx`) for tooling compatibility
-- **SQL Server + EF Core** for persistence (LocalDB for development)
+- **SQLite + EF Core** for persistence (file-based, zero configuration)
 - **Sparse storage**: Store only alive cell coordinates as JSON
 - **Single Repository**: IBoardRepository handles both Board and BoardGeneration entities (aggregate pattern)
 - **Navigation Properties**: Board has Generations collection, BoardGeneration has Board reference
@@ -69,7 +69,7 @@ Each backend layer has corresponding `.Tests` project.
 - **Versioning**: Media type (`Accept: application/vnd.lifegames.v1+json`)
 - **Errors**: Problem Details (RFC 7807)
 - **Validation**: FluentValidation
-- **Content negotiation**: JSON (default) and XML
+- **Content negotiation**: JSON only
 - **HATEOAS**: Include links in responses
 
 ## Code Style

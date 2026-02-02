@@ -44,7 +44,7 @@ docker-compose up --build
 
 ## 📦 Tech Stack
 
-**Backend**: .NET 8 • Clean Architecture • CQRS • Aggregate Pattern • EF Core • SQL Server • MediatR
+**Backend**: .NET 8 • Clean Architecture • CQRS • Aggregate Pattern • EF Core • SQLite • MediatR
 **Frontend**: React 18 • TypeScript • Vite • Tailwind CSS v4
 
 ## 🎯 Features

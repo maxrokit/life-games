@@ -21,9 +21,9 @@ Full-stack implementation of Conway's Game of Life with .NET 8 backend API and R
   - Pipeline: `ValidationBehavior` for MediatR
 
 - **Infrastructure Layer**: Data persistence and logging
-  - EF Core 8.0 with SQL Server
+  - EF Core 8.0 with SQLite
   - Repositories implementing domain interfaces
-  - JSON storage for sparse cell coordinates
+  - JSON storage for sparse cell coordinates (TEXT column)
   - Serilog structured logging
 
 - **API Layer**: RESTful endpoints
@@ -49,7 +49,7 @@ Full-stack implementation of Conway's Game of Life with .NET 8 backend API and R
 - .NET 8.0 (targeting net8.0)
 - ASP.NET Core Web API
 - Entity Framework Core 8.0.11
-- SQL Server database
+- SQLite database
 - MediatR 14.0.0 (CQRS)
 - FluentValidation 12.1.1
 - Serilog 4.2.0
@@ -68,9 +68,9 @@ Full-stack implementation of Conway's Game of Life with .NET 8 backend API and R
 2. **Sparse Storage**: Only stores alive cell coordinates (efficient for large boards)
 3. **Generation Caching**: Computed generations cached in database
 4. **Cycle Detection**: Identifies oscillators (period > 1) and still lifes (period = 1)
-5. **Board Limits**: Configurable max size (default 1000x1000) and iteration limit (10,000)
+5. **Board Limits**: Cell coordinates bounded by int range, iteration limit configurable (default 10,000)
 6. **HATEOAS**: Self-describing API with navigation links
-7. **Content Negotiation**: JSON and XML support
+7. **JSON API**: RESTful JSON responses
 8. **Interactive UI**: Click-to-draw, preset patterns, adjustable speed
 
 ## API Endpoints
@@ -151,11 +151,11 @@ life-games/
 
 ## Test Coverage
 
-### Backend: 36 Tests (100% Pass Rate)
+### Backend: 39 Tests (100% Pass Rate)
 - **Domain (13 tests)**: Game of Life rules, edge cases, cancellation
 - **Application (6 tests)**: Cycle detection, final state computation
-- **Infrastructure (9 tests)**: Repository CRUD operations
-- **API (8 tests)**: Integration tests for all endpoints
+- **Infrastructure (12 tests)**: Repository CRUD operations, navigation properties
+- **API (8 tests)**: Integration tests for all endpoints (using EF Core InMemory)
 
 ### Frontend
 - **Build**: TypeScript compilation successful
@@ -171,8 +171,6 @@ life-games/
     "DefaultConnection": "Data Source=lifegames.db"
   },
   "Board": {
-    "MaxWidth": 1000,
-    "MaxHeight": 1000,
     "MaxIterationsForFinalState": 10000
   },
   "Serilog": {
@@ -198,7 +196,7 @@ life-games/
 cd life-games-api
 dotnet restore
 dotnet build
-dotnet test                                    # Run all 36 tests
+dotnet test                                    # Run all 39 tests
 dotnet run --project Api/LifeGames.Api        # Start API
 # → http://localhost:5000
 # → http://localhost:5000/swagger
@@ -319,7 +317,7 @@ docker-compose up --build
 ## Deployment Considerations
 
 ### Backend
-- **Database**: SQL Server suitable for development; consider PostgreSQL for production
+- **Database**: SQLite suitable for development and small-scale production; consider PostgreSQL for larger scale
 - **Secrets**: Use Azure Key Vault or AWS Secrets Manager
 - **Logging**: Configure CloudWatch or Application Insights sink
 - **CORS**: Update to specific origins (never AllowAnyOrigin in production)
@@ -335,7 +333,7 @@ docker-compose up --build
 
 ## Quality Metrics
 
-✅ **Test Coverage**: 36 backend tests, 100% pass rate
+✅ **Test Coverage**: 39 backend tests, 100% pass rate
 ✅ **Code Quality**: 0 compiler warnings, 0 linter errors
 ✅ **Build Status**: All projects build successfully
 ✅ **Documentation**: Comprehensive README files
@@ -353,11 +351,11 @@ docker-compose up --build
 | 1. Project Setup | ✅ Complete | Solution, projects, dependencies |
 | 2. Domain Layer | ✅ Complete | Entities, Game of Life logic, 13 tests |
 | 3. Application Layer | ✅ Complete | CQRS, validation, 6 tests |
-| 4. Infrastructure | ✅ Complete | EF Core, repositories, 9 tests |
+| 4. Infrastructure | ✅ Complete | EF Core, repositories, 12 tests |
 | 5. API Layer | ✅ Complete | Controllers, middleware, 8 tests |
 | 6. Docker | ✅ Complete | Dockerfile, docker-compose |
 | 7. Frontend | ✅ Complete | React app, API integration |
-| 8. Testing | ✅ Complete | All 36 tests passing |
+| 8. Testing | ✅ Complete | All 39 tests passing |
 | 9. Documentation | ✅ Complete | README, CLAUDE.md, this summary |
 
 **Project Status**: ✅ **PRODUCTION READY**

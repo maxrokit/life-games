@@ -10,7 +10,7 @@ namespace LifeGames.Api.Controllers;
 [ApiController]
 [ApiVersion("1.0")]
 [Route("api/[controller]")]
-[Produces("application/vnd.lifegames.v1+json", "application/vnd.lifegames.v1+xml", "application/json", "application/xml")]
+[Produces("application/vnd.lifegames.v1+json", "application/json")]
 public class BoardsController(IMediator mediator) : ControllerBase
 {
     /// <summary>

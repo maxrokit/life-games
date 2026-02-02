@@ -6,11 +6,12 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-06B6D4?logo=tailwindcss)](https://tailwindcss.com/)
 [![Tests](https://img.shields.io/badge/tests-39%20passing-success)](src/life-games-api)
 
-> Production-ready implementation of Conway's Game of Life with Clean Architecture .NET 8 backend API and modern React frontend.
+> Production-ready implementation of Conway's Game of Life with Clean Architecture .NET 8 backend API and modern React frontend for testing API.
 
 ## ✨ Features
 
 ### 🎮 Interactive Game of Life
+- **Development environment API test front end**:
 - **Visual Grid**: Click to toggle cells, watch patterns evolve in real-time
 - **Preset Patterns**: 7 classic patterns (Glider, Gosper Glider Gun, Blinker, Toad, Beacon, Pulsar, Pentadecathlon)
 - **Dual Modes**:
@@ -31,9 +32,10 @@
 - **Rate Limiting**: 1000 requests/second per IP
 - **HATEOAS Links**: Hypermedia controls for API discoverability
 - **API Versioning**: Media type versioning (Accept: application/vnd.lifegames.v1+json)
-- **Content Negotiation**: JSON (default) and XML support
+- **JSON API**: RESTful JSON responses
 
 ### 🔒 Production Ready
+- **Front End**: Front end is for testing API during development.  It is not intended for production release.
 - **Structured Logging**: Serilog with correlation IDs
 - **Health Checks**: Database connectivity monitoring
 - **Input Validation**: FluentValidation with detailed error messages
@@ -62,7 +64,7 @@
 ### Prerequisites
 - [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
 - [Node.js 18+](https://nodejs.org/) and npm
-- SQL Server or SQLite (SQLite is default for development)
+- No database installation required (SQLite file-based database)
 
 ### Backend API
 
@@ -133,15 +135,18 @@ life-games/
 │
 ├── docs/                            # Documentation
 │   ├── PRD.md                      # Product Requirements
-│   ├── DEPLOYMENT.md               # Deployment guide
-│   └── PRODUCTION_HARDENING.md     # Security checklist
+│   ├── ARCHITECTURE.md             # Architecture deep dive
+│   ├── PROJECT_SUMMARY.md          # Implementation details
+│   ├── QUICK_START.md              # 2-minute guide
+│   ├── POSTMAN_GUIDE.md            # API testing guide
+│   └── DEPLOYMENT.md               # Deployment guide
 │
-├── ARCHITECTURE.md                  # Architecture deep dive
-├── PROJECT_SUMMARY.md               # Implementation details
-├── QUICK_START.md                   # 2-minute guide
-├── POSTMAN_GUIDE.md                 # API testing guide
-├── Life-Games-API.postman_collection.json
-└── Life-Games-API.postman_environment.json
+├── postman/                         # API Testing
+│   ├── Life-Games-API.postman_collection.json
+│   └── Life-Games-API.postman_environment.json
+│
+├── CLAUDE.md                        # Project guidelines for Claude Code
+└── AGENTS.md                        # Agent configuration
 ```
 
 ## 📚 API Documentation
@@ -202,12 +207,12 @@ Response:
 Import the included Postman collection for instant API testing:
 
 1. Open Postman
-2. Import `Life-Games-API.postman_collection.json`
-3. Import `Life-Games-API.postman_environment.json`
+2. Import `postman/Life-Games-API.postman_collection.json`
+3. Import `postman/Life-Games-API.postman_environment.json`
 4. Select "Life Games - Local Development" environment
 5. Run requests or entire collection with automated tests
 
-See [POSTMAN_GUIDE.md](POSTMAN_GUIDE.md) for detailed instructions.
+See [docs/POSTMAN_GUIDE.md](docs/POSTMAN_GUIDE.md) for detailed instructions.
 
 ### Swagger UI
 
@@ -266,7 +271,7 @@ http://localhost:5253/swagger
 - BoardGeneration includes Board reference
 - 50% fewer database queries (1 query instead of 2)
 
-See [ARCHITECTURE.md](ARCHITECTURE.md) for complete details.
+See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for complete details.
 
 ## 🧪 Testing
 
@@ -406,12 +411,8 @@ npm run lint
 **SQLite (Default)**
 - File: `lifegames.db` in API project root
 - No installation required
-- Perfect for development
-
-**SQL Server (Production)**
-- Update connection string in `appsettings.json`
-- Run migrations: `dotnet ef database update`
-- See [DEPLOYMENT.md](docs/DEPLOYMENT.md) for details
+- Perfect for development and production
+- Cells stored as JSON (TEXT column type)
 
 ## 🐳 Docker Deployment
 
@@ -485,15 +486,15 @@ lsof -ti:5253 | xargs kill -9
 
 ### Database connection fails
 
-**Issue**: Cannot connect to SQL Server LocalDB
+**Issue**: SQLite database file issues
 
-**Solution**: Switch to SQLite
-```json
-{
-  "ConnectionStrings": {
-    "DefaultConnection": "Data Source=lifegames.db"
-  }
-}
+**Solution**: Delete and recreate the database
+```bash
+# Delete existing database
+rm lifegames.db
+
+# Restart the API (database will be recreated)
+dotnet run --project Api/LifeGames.Api
 ```
 
 ### Frontend API calls fail
@@ -538,13 +539,14 @@ Contributions are welcome! Please follow these guidelines:
 
 ## 📖 Additional Documentation
 
-- [ARCHITECTURE.md](ARCHITECTURE.md) - Detailed architecture and design decisions
-- [PROJECT_SUMMARY.md](PROJECT_SUMMARY.md) - Complete implementation summary
-- [QUICK_START.md](QUICK_START.md) - 2-minute quick start guide
-- [POSTMAN_GUIDE.md](POSTMAN_GUIDE.md) - API testing with Postman
+- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) - Detailed architecture and design decisions
+- [docs/PROJECT_SUMMARY.md](docs/PROJECT_SUMMARY.md) - Complete implementation summary
+- [docs/QUICK_START.md](docs/QUICK_START.md) - 2-minute quick start guide
+- [docs/POSTMAN_GUIDE.md](docs/POSTMAN_GUIDE.md) - API testing with Postman
 - [docs/PRD.md](docs/PRD.md) - Product Requirements Document
 - [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) - Deployment guide
-- [docs/PRODUCTION_HARDENING.md](docs/PRODUCTION_HARDENING.md) - Security checklist
+- [CLAUDE.md](CLAUDE.md) - Project guidelines for Claude Code
+- [AGENTS.md](AGENTS.md) - Agent configuration
 
 ## 📄 License
 

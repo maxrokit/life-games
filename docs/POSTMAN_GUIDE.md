@@ -41,20 +41,14 @@ Main API endpoints for board management:
 - **Get Specific Generation (N=100)** - Jump to generation 100
 - **Get Final State** - Gets stable state with cycle detection
 
-### 2. Content Negotiation
-Demonstrates JSON/XML support:
-
-- **Get Board State (XML)** - Returns XML response
-- **Get Next Generation (JSON)** - Returns JSON response
-
-### 3. Error Handling
+### 2. Error Handling
 Tests error responses:
 
 - **Get Non-Existent Board** - Tests 404 handling
 - **Create Board - Invalid Request** - Tests validation (400)
 - **Get Invalid Generation Number** - Tests negative number validation
 
-### 4. Health Checks
+### 3. Health Checks
 Container orchestration endpoints:
 
 - **Health Check** - Basic liveness check
@@ -100,11 +94,6 @@ Each request includes automated tests that verify:
 The API uses media type versioning. All requests include:
 ```
 Accept: application/vnd.lifegames.v1+json
-```
-
-To request XML instead of JSON:
-```
-Accept: application/vnd.lifegames.v1+xml
 ```
 
 ## Common Patterns

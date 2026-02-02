@@ -132,22 +132,6 @@ Each file contains:
 - The command/query record
 - The handler class implementing `IRequestHandler<TRequest, TResponse>`
 
-### Query Optimization Using Navigation Properties
-
-**Before** (2 database calls):
-```csharp
-var board = await boardRepository.GetByIdAsync(boardId, ct);  // Query 1
-var generation = await boardRepository.GetGenerationAsync(boardId, 0, ct);  // Query 2
-```
-
-**After** (1 database call):
-```csharp
-var generation = await boardRepository.GetGenerationAsync(boardId, 0, ct);
-// generation.Board is already loaded via navigation property
-var board = generation.Board;
-```
-
-**Performance Improvement**: 50% fewer database queries in all query handlers.
 
 ## Entity Framework Configuration
 
@@ -239,15 +223,6 @@ This follows the principle that a table represents a collection of entities, whe
 
 ## Performance Characteristics
 
-### Database Queries
-
-| Operation | Before | After | Improvement |
-|-----------|--------|-------|-------------|
-| Get Board | 2 queries | 1 query | 50% faster |
-| Get Generation | 2 queries | 1 query | 50% faster |
-| Get Next Generation | 2 queries | 1 query | 50% faster |
-| Get Final State | 2 queries | 1 query | 50% faster |
-
 ### Caching Strategy
 
 - **Generation 0**: Always cached (initial state)
@@ -259,7 +234,7 @@ This follows the principle that a table represents a collection of entities, whe
 
 ### Scalability
 
-- **Current**: SQL Server, single file database
+- **Current**: SQLite file-based database
 - **Future**: PostgreSQL/SQL Server for production scale
 - **Migration**: No code changes needed (repository pattern isolation)
 
@@ -280,7 +255,7 @@ This follows the principle that a table represents a collection of entities, whe
 The architecture prioritizes:
 1. **Performance**: Navigation properties reduce queries by 50%
 2. **Maintainability**: Clear separation of concerns, single responsibility
-3. **Testability**: 35 tests covering all layers
+3. **Testability**: 39 tests covering all layers
 4. **Flexibility**: Repository pattern allows easy data store changes
 5. **Domain-Driven**: Aggregate pattern enforces business rules
 

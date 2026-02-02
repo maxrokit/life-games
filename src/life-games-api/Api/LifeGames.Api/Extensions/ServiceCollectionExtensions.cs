@@ -55,9 +55,7 @@ public static class ServiceCollectionExtensions
         {
             // Support vendor-specific media types for API versioning
             options.FormatterMappings.SetMediaTypeMappingForFormat("json", "application/vnd.lifegames.v1+json");
-            options.FormatterMappings.SetMediaTypeMappingForFormat("xml", "application/vnd.lifegames.v1+xml");
         })
-        .AddXmlSerializerFormatters()
         .ConfigureApiBehaviorOptions(options =>
         {
             // Ensure vendor media types are supported in content negotiation

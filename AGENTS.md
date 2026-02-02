@@ -272,7 +272,6 @@ CREATE TABLE BoardGenerations (
 
 **Accept Headers**:
 - `application/vnd.lifegames.v1+json` → Version 1, JSON
-- `application/vnd.lifegames.v1+xml` → Version 1, XML
 - `application/json` → Defaults to v1, JSON
 - No header → Defaults to v1, JSON
 

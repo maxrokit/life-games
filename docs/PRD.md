@@ -55,7 +55,7 @@ return a suitable error message.
       - `LifeGames.Api.Tests/`
   - `life-games-app/` - React/Tailwind frontend
 - Dockerized API for deployment to AWS
-- Content negotiation (support JSON and XML based on Accept header)
+- JSON API responses with proper content negotiation
 - HATEOAS links in responses (e.g., links to next state, N states ahead, final state upon board creation)
 - Options pattern for configuration (IOptions<T>, IOptionsSnapshot<T>, IOptionsMonitor<T>) with validation
 - Secrets management: User Secrets for local dev, environment variables/AWS Secrets Manager for production (DB connection string, etc.)
@@ -95,15 +95,14 @@ All requirements have been successfully implemented:
 - Cycle detection for oscillators and still lifes
 
 **Quality & Production Readiness:**
-- 36 passing tests (Domain: 13, Application: 6, Infrastructure: 9, API: 8)
+- 39 passing tests (Domain: 13, Application: 6, Infrastructure: 12, API: 8)
 - FluentValidation for all inputs
 - Global exception handling with RFC 7807 Problem Details
 - HATEOAS links in all responses
 - API versioning via media type (`application/vnd.lifegames.v1+json`)
 - Response caching and rate limiting (100 req/min per IP)
 - User Secrets for local development
-- AWS Systems Manager Parameter Store for production secrets
-- Serilog structured logging (Console + CloudWatch)
+- Serilog structured logging
 - Docker support with multi-stage builds
 - Health checks for EF Core database connectivity
 - Cancellation token propagation throughout all layers
@@ -136,15 +135,14 @@ Enhancements delivered beyond the initial PRD:
 1. **TypeScript Frontend** - Frontend uses TypeScript for type safety (React + TS vs. just React)
 2. **Dual-Mode Frontend** - Can run purely client-side without backend for offline use
 3. **Health Checks** - Database connectivity checks for container orchestration
-4. **Comprehensive Testing** - 36 automated tests across all layers
-5. **Production Logging** - CloudWatch integration with structured JSON logging
-6. **Secrets Management** - Full User Secrets and AWS Parameter Store integration
-7. **Documentation** - Extensive guides for secrets, logging, and deployment
+4. **Comprehensive Testing** - 39 automated tests across all layers
+5. **Production Logging** - Structured JSON logging with Serilog
+6. **Documentation** - Extensive guides for development and deployment
 8. **Get Board Endpoint** - Additional endpoint for retrieving generation 0
 
 ### 📊 Quality Metrics
 
-- **Tests**: 36/36 passing (100%)
+- **Tests**: 39/39 passing (100%)
 - **Build**: 0 warnings, 0 errors
 - **Linting**: 0 ESLint errors/warnings
 - **Coverage**: Domain logic, application layer, infrastructure, and API integration
@@ -155,8 +153,6 @@ Enhancements delivered beyond the initial PRD:
 
 The application is production-ready with:
 - Docker containerization
-- AWS CloudWatch logging
-- AWS Systems Manager secrets
 - Health checks for orchestration
 - Rate limiting and caching
 - Structured logging with correlation IDs
