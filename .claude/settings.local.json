@@ -44,7 +44,21 @@
       "Bash(dotnet --list-sdks:*)",
       "Bash(dotnet --version:*)",
       "Bash(dotnet format:*)",
-      "Bash(npm run lint:*)"
+      "Bash(npm run lint:*)",
+      "Bash(Stop-Process -Id 33056 -Force)",
+      "Bash(tree:*)",
+      "Bash(find:*)",
+      "Bash(powershell -Command \"Get-Process | Where-Object {$_ProcessName -eq ''LifeGames.Api''} | Stop-Process -Force\")",
+      "Bash(tasklist:*)",
+      "Bash(cmd /c \"taskkill /PID 33056 /F\")",
+      "Bash(powershell -Command:*)",
+      "Bash(move:*)",
+      "Bash(git -C \"C:\\\\Users\\\\Mik\\\\source\\\\repos\\\\life-games\" status)",
+      "Bash(git -C \"C:\\\\Users\\\\Mik\\\\source\\\\repos\\\\life-games\" diff)",
+      "Bash(git -C \"C:\\\\Users\\\\Mik\\\\source\\\\repos\\\\life-games\" diff docs/DEPLOYMENT.md)",
+      "Bash(git -C \"C:\\\\Users\\\\Mik\\\\source\\\\repos\\\\life-games\" diff HEAD -- docs/DEPLOYMENT.md)",
+      "Bash(git -C \"C:\\\\Users\\\\Mik\\\\source\\\\repos\\\\life-games\" log --oneline -5)",
+      "Bash(git -C \"C:\\\\Users\\\\Mik\\\\source\\\\repos\\\\life-games\" add .claude/plans/implementation-plan.md .claude/settings.local.json docs/DEPLOYMENT.md)"
     ]
   }
 }
