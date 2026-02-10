@@ -44,3 +44,6 @@ TestResults/
 tmp/
 temp/
 *.tmp
+
+# Claude settings
+settings.local.json
